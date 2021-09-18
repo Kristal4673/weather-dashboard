@@ -1,6 +1,6 @@
 
 //Declare a variable to store the searched city
-var zipCode="";
+var city = "";
 // variable declaration
 var searchCity = $("#search-city");
 var searchButton = $("#search-button");
@@ -20,7 +20,8 @@ function find(c){
     }
     return 1;
 }
-
+//varible for my apikey 
+//var APIKey = c951bfd3da7610ddcabde4548ab40daf;
 // Display the curent and future weather to the user after grabing the city form the input text box.
 function displayWeather(event){
     event.preventDefault();
@@ -29,12 +30,12 @@ function displayWeather(event){
         currentWeather(city);
     }
 }
-// Here we create the AJAX call
+// Here we create the fetch call 
 function currentWeather(city){
     // Here we build the URL so we can get a data from server side.
-    var queryURL= "https://api.openweathermap.org/data/2.5/weather?q="+ city + "&appid=c951bfd3da7610ddcabde4548ab40daf&units=imperial";
+    var queryURL= "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=c951bfd3da7610ddcabde4548ab40daf&units=imperial";
     fetch(queryURL)
-       // url:queryURL,
+        // url:queryURL,
         //method:"GET",
         .then(function (response) {
             return response.json()
@@ -44,8 +45,8 @@ function currentWeather(city){
             // parse the response to display the current weather including the City name. the Date and the weather icon. 
             console.log(response);
             //Dta object from server side Api for icon property.
-            var weathericon= response.weather[0].icon;
-            var iconurl="https://openweathermap.org/img/wn/"+weathericon +"@2x.png";
+            var weathericon = response.weather[0].icon;
+            var iconurl = "https://openweathermap.org/img/wn"+weathericon+"@2x.png";
             // The date format method is taken from the  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
             var date=new Date(response.dt*1000).toLocaleDateString();
             //parse the response for name of city and concanatig the date and icon.
@@ -89,7 +90,7 @@ function currentWeather(city){
     // This function returns the UVIindex response.
 function UVIndex(ln,lt){
     //lets build the url for uvindex.
-    var uvqURL="https://api.openweathermap.org/data/2.5/uvi?appid="+ APIKey+"&lat="+lt+"&lon="+ln;
+    var uvqURL="https://api.openweathermap.org/data/2.5/uvi?appid="+ city +"&lat="+lt+"&lon="+ln;
     $.ajax({
             url:uvqURL,
             method:"GET"
@@ -99,12 +100,10 @@ function UVIndex(ln,lt){
 }
     
 // Here we display the 5 days forecast for the current city.
-function forecast(cityid){
-    var dayover= false;
+function forecast(cityid) {
+    var dayover = false;
     var queryforcastURL =
-      "https://api.openweathermap.org/data/2.5/forecast?id=" +
-      cityid + "&appid=c951bfd3da7610ddcabde4548ab40daf" +
-      APIKey;
+        "https://api.openweathermap.org/data/2.5/forecast?id="+cityid+"&appid=c951bfd3da7610ddcabde4548ab40daf";
     $.ajax({
         url:queryforcastURL,
         method:"GET"
